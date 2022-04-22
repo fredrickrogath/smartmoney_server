@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -15,8 +15,8 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'mobile' => 'required|max:255|unique:users',
+            'password' => 'required|string|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'mobile' => $request->mobile,
             'password' => Hash::make($request->password),
         ]);
 
@@ -37,12 +37,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('mobile', 'password'))) {
             return response()
                 ->json(['message' => 'Unauthorized'], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = User::where('mobile', $request['mobile'])->firstOrFail();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
