@@ -25,7 +25,7 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/posts', [PostController::class, 'index']);
+    Route::post('/createBudget', [\App\Http\Controllers\BudgetController::class, 'createBudget']);
 
     // API route for logout user
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
