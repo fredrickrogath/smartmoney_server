@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Budget;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
-    public function createBudget(){
-       $created = Budget::create([
+    public function createBudget()
+    {
+        $created = Budget::create([
             'name' => request()->name,
             'start_date' => request()->start_date,
             'end_date' => request()->end_date,
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
         ]);
 
-        if($created){
-            return response()->json([
-                'message' => 'successfully created',
-                'code' => 200,
-            ]);
+        if ($created) {
+            $message = 'successfully created';
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 203;
         }
+
+        return response()->json([
+            'message' => $message,
+            'code' => $code,
+        ]);
     }
 }

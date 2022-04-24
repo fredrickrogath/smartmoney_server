@@ -13,5 +13,6 @@ class Budget extends Model
         'name',
         'start_date',
         'end_date',
+        'user_id'
     ];
 }
