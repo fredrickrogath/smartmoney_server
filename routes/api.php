@@ -27,6 +27,8 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/createBudget', [\App\Http\Controllers\BudgetController::class, 'createBudget']);
 
+    Route::post('/getCategory', [\App\Http\Controllers\BudgetController::class, 'getCategory']);
+
     // API route for logout user
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
