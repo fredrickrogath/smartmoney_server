@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('type');
             $table->string('amount');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('in_use')->default('0');
             $table->timestamps();
         });
     }

@@ -127,7 +127,7 @@ class BudgetController extends Controller
         $expeses = Category::incomeDescending();
 
         if ($expeses) {
-            $expeses = $expeses;
+            $message = $expeses;
             $code = 200;
         } else {
             $message = 'failed';
@@ -136,6 +136,24 @@ class BudgetController extends Controller
 
         return response()->json([
             'data' => $expeses,
+            'code' => $code,
+        ]);
+    }
+
+    public function selectCategory()
+    {
+        $category = Category::selectCategory(request()->categoryId);
+
+        if ($category) {
+            $message = 'successfully selected';
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $message,
             'code' => $code,
         ]);
     }
