@@ -25,4 +25,9 @@ class Category extends Model
     {
         return $query->where('type', 'expense')->orderBy('id', 'DESC')->get();
     }
+
+    public function scopedeleteCategory($query, $id)
+    {
+        return $query->find($id)->delete();
+    }
 }

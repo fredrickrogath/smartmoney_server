@@ -24,7 +24,7 @@ class BudgetController extends Controller
             $code = 200;
         } else {
             $message = 'failed';
-            $code = 203;
+            $code = 400;
         }
 
         return response()->json([
@@ -38,7 +38,7 @@ class BudgetController extends Controller
     {
         $created = Category::create([
             'name' => request()->name,
-            'amount' => $this->amount,
+            'amount' => request()->amount,
             'type' => request()->type,
             'user_id' => Auth::user()->id,
         ]);
@@ -48,7 +48,7 @@ class BudgetController extends Controller
             $code = 200;
         } else {
             $message = 'failed';
-            $code = 203;
+            $code = 400;
         }
 
         return response()->json([
@@ -59,14 +59,14 @@ class BudgetController extends Controller
 
     public function deleteCategory()
     {
-        $created = Category::find(request()->id)->delete();
+        $created = Category::deleteCategory(request()->id);
 
         if ($created) {
             $message = 'successfully deleted';
             $code = 200;
         } else {
             $message = 'failed';
-            $code = 203;
+            $code = 400;
         }
 
         return response()->json([
@@ -84,7 +84,7 @@ class BudgetController extends Controller
             $code = 200;
         } else {
             $message = 'failed';
-            $code = 203;
+            $code = 400;
         }
 
         return response()->json([
@@ -102,7 +102,7 @@ class BudgetController extends Controller
             $code = 200;
         } else {
             $message = 'failed';
-            $code = 203;
+            $code = 400;
         }
 
         return response()->json([
