@@ -12,6 +12,17 @@ class Category extends Model
     protected $fillable = [
         'name',
         'type',
-        'budget_id',
+        'amount',
+        'user_id',
     ];
+
+    public function scopeincomeDescending($query)
+    {
+        return $query->where('type', 'income')->orderBy('id', 'DESC')->get();
+    }
+
+    public function scopeexpenseDescending($query)
+    {
+        return $query->where('type', 'expense')->orderBy('id', 'DESC')->get();
+    }
 }

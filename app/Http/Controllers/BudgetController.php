@@ -38,8 +38,9 @@ class BudgetController extends Controller
     {
         $created = Category::create([
             'name' => request()->name,
+            'amount' => $this->amount,
             'type' => request()->type,
-            'budget_id' => request()->budget_id,
+            'user_id' => Auth::user()->id,
         ]);
 
         if ($created) {
@@ -56,9 +57,27 @@ class BudgetController extends Controller
         ]);
     }
 
+    public function deleteCategory()
+    {
+        $created = Category::find(request()->id)->delete();
+
+        if ($created) {
+            $message = 'successfully deleted';
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 203;
+        }
+
+        return response()->json([
+            'message' => $message,
+            'code' => $code,
+        ]);
+    }
+
     public function getExpense()
     {
-        $expeses = Category::where('type', 'expense')->get();
+        $expeses = Category::expenseDescending();
 
         if ($expeses) {
             $expeses = $expeses;
@@ -76,7 +95,7 @@ class BudgetController extends Controller
 
     public function getIncome()
     {
-        $expeses = Category::where('type', 'income')->get();
+        $expeses = Category::incomeDescending();
 
         if ($expeses) {
             $expeses = $expeses;
