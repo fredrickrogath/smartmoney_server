@@ -19,6 +19,35 @@ class BudgetController extends Controller
         ]);
 
         if ($created) {
+
+            Category::create([
+                'name' => 'Salary',
+                'amount' => '20,000',
+                'type' => 'income',
+                'user_id' => Auth::user()->id,
+            ]);
+
+            Category::create([
+                'name' => 'Boom',
+                'amount' => '500,000',
+                'type' => 'income',
+                'user_id' => Auth::user()->id,
+            ]);
+
+            Category::create([
+                'name' => 'Msalato nyama',
+                'amount' => '80,000',
+                'type' => 'expense',
+                'user_id' => Auth::user()->id,
+            ]);
+
+            Category::create([
+                'name' => 'UJAS bill',
+                'amount' => '100,000',
+                'type' => 'expense',
+                'user_id' => Auth::user()->id,
+            ]);
+
             $message = 'successfully created';
             $budget_id = $created->id;
             $code = 200;
