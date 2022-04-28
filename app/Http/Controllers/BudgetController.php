@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Budget;
 use App\Models\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BudgetController extends Controller
 {
@@ -155,6 +157,21 @@ class BudgetController extends Controller
         return response()->json([
             'data' => $message,
             'code' => $code,
+        ]);
+    }
+
+    public function getBudgetCategorizedByDay()
+    {
+        $data = Budget::where('created_at', '>=', Carbon::now()->subMonth())
+            ->groupBy('date')
+            ->orderBy('date', 'DESC')
+            ->get(array(
+                DB::raw('Date(created_at) as date'),
+                DB::raw('* as "views"'),
+            ));
+
+        return response()->json([
+            'data' => $data,
         ]);
     }
 }
