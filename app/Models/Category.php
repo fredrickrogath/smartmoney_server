@@ -20,12 +20,12 @@ class Category extends Model
 
     public function scopeincomeDescending($query)
     {
-        return $query->where('type', 'income')->where('user_id', '=', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        return $query->where('type', 'income')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
     }
 
     public function scopeexpenseDescending($query)
     {
-        return $query->where('type', 'expense')->where('user_id', '=', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        return $query->where('type', 'expense')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
     }
 
     public function scopedeleteCategory($query, $id)
@@ -35,6 +35,6 @@ class Category extends Model
 
     public function scopeselectCategory($query, $categoryId)
     {
-        return $query->where('id', '=', $categoryId)->where('user_id', '=', Auth::user()->id)->update(['in_use' => '1']);
+        return $query->where('id', '=', $categoryId)->where('user_id', Auth::user()->id)->update(['in_use' => '1']);
     }
 }
