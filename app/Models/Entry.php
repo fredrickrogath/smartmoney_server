@@ -13,6 +13,7 @@ class Entry extends Model
         'amount',
         'category_id',
         'budget_id',
-        'user_id'
+        'user_id',
+        'type'
     ];
 }

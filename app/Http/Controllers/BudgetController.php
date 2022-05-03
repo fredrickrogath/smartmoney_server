@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Budget;
+use App\Models\Entry;
 use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -156,6 +157,29 @@ class BudgetController extends Controller
 
         return response()->json([
             'data' => $message,
+            'code' => $code,
+        ]);
+    }
+
+    public function addEntry()
+    {
+        $created = Entry::create([
+            'amount' => request()->amount,
+            'category_id' => request()->category_id,
+            'budget_id' => request()->budget_id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        if ($created) {
+            $message = 'successfully created';
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 400;
+        }
+
+        return response()->json([
+            'message' => $message,
             'code' => $code,
         ]);
     }

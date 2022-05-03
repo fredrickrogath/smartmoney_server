@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/getBudgetCategorizedByDay', [\App\Http\Controllers\BudgetController::class, 'getBudgetCategorizedByDay']);
 
+    Route::post('/addEntry', [\App\Http\Controllers\BudgetController::class, 'addEntry']);
+
     // API route for logout user
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
