@@ -37,4 +37,9 @@ class Category extends Model
     {
         return $query->where('id', '=', $categoryId)->where('user_id', Auth::user()->id)->update(['in_use' => '1']);
     }
+
+    public function scopegetCategories($query)
+    {
+        return $query->where('user_id', Auth::user()->id)->get();
+    }
 }

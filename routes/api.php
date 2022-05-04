@@ -41,6 +41,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/addEntry', [\App\Http\Controllers\BudgetController::class, 'addEntry']);
 
+    Route::post('/getCategories', [\App\Http\Controllers\BudgetController::class, 'getCategories']);
+
     // API route for logout user
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });

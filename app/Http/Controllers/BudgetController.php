@@ -167,6 +167,7 @@ class BudgetController extends Controller
             'amount' => request()->amount,
             'category_id' => request()->category_id,
             'budget_id' => request()->budget_id,
+            'type' => request()->type,
             'user_id' => Auth::user()->id,
         ]);
 
@@ -180,6 +181,24 @@ class BudgetController extends Controller
 
         return response()->json([
             'message' => $message,
+            'code' => $code,
+        ]);
+    }
+
+    public function getCategories()
+    {
+        $categores = Category::getCategories();
+
+        if ($categores) {
+            $data = $categores;
+            $code = 200;
+        } else {
+            $message = $data;
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $categores,
             'code' => $code,
         ]);
     }
