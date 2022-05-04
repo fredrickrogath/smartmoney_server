@@ -166,6 +166,7 @@ class BudgetController extends Controller
         $created = Entry::create([
             'amount' => request()->amount,
             'category_id' => request()->category_id,
+            'category_name' => request()->category_name,
             'budget_id' => request()->budget_id,
             'type' => request()->type,
             'user_id' => Auth::user()->id,

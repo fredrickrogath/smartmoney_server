@@ -12,6 +12,7 @@ class Entry extends Model
     protected $fillable = [
         'amount',
         'category_id',
+        'category_name',
         'budget_id',
         'user_id',
         'type'
