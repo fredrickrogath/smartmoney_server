@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Balance;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+
+    $previousAmount = Balance::where('budget_id', 6)->where('user_id', 4)->get('amount')[0];
+// dd($previousAmount->amount);
+        // if ($type == 'in') {
+            $currentAmount = $previousAmount->amount + 1000;
+        // } elseif ($type == 'out') {
+        //     $currentAmount = (int)$previousAmount - (int)$amount;
+        // }
+
+        return $currentAmount;
 });

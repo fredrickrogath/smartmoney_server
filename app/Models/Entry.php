@@ -15,6 +15,7 @@ class Entry extends Model
         'category_id',
         'category_name',
         'budget_id',
+        'balance',
         'user_id',
         'type'
     ];

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
 use App\Models\Budget;
-use App\Models\Entry;
 use App\Models\Category;
+use App\Models\Entry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -163,11 +164,31 @@ class BudgetController extends Controller
 
     public function addEntry()
     {
+        $type = request()->type;
+
+        $amount = request()->amount;
+
+        $budgetId = request()->budget_id;
+
+        $balance = Balance::getBalance($budgetId);
+
+        if ($type == 'in') {
+
+            if ($balance->count() <= 0) {
+                Balance::createNew($amount, $budgetId);
+            } else {
+                $balance = Balance::updateCurrent($amount, $budgetId, $type);
+            }
+        } elseif ($type == 'out') {
+
+        }
+
         $created = Entry::create([
-            'amount' => request()->amount,
+            'amount' => $amount,
+            'balance' => $balance,
             'category_id' => request()->category_id,
             'category_name' => request()->category_name,
-            'budget_id' => request()->budget_id,
+            'budget_id' => $budgetId,
             'type' => request()->type,
             'user_id' => Auth::user()->id,
         ]);
@@ -181,7 +202,8 @@ class BudgetController extends Controller
         }
 
         return response()->json([
-            'message' => $message,
+            'message' => $created,
+            'balance' => $balance,
             'code' => $code,
         ]);
     }
@@ -208,6 +230,8 @@ class BudgetController extends Controller
     {
         $categores = Entry::getEntries(request()->budget_id);
 
+        $balance = Balance::getBalance(request()->budget_id);
+
         if ($categores) {
             $data = $categores;
             $code = 200;
@@ -218,6 +242,7 @@ class BudgetController extends Controller
 
         return response()->json([
             'data' => $categores,
+            'balance' => $balance,
             'code' => $code,
         ]);
     }
