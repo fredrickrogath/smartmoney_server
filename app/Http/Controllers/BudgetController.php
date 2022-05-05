@@ -268,10 +268,10 @@ class BudgetController extends Controller
 
     public function totalOut()
     {
-        $categores = Entry::totalOut(request()->budget_id);
+        $totalOut = Entry::totalOut(request()->budget_id);
 
-        if ($categores) {
-            $data = $categores;
+        if ($totalOut) {
+            $data = $totalOut;
             $code = 200;
         } else {
             $message = $data;
@@ -279,8 +279,7 @@ class BudgetController extends Controller
         }
 
         return response()->json([
-            'data' => $categores,
-            'balance' => $balance,
+            'data' => -($data),
             'code' => $code,
         ]);
     }

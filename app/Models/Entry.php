@@ -38,6 +38,12 @@ class Entry extends Model
 
     public function scopetotalOut($query, $budget_id)
     {
-        return $query->where('user_id', Auth::user()->id)->where('budget_id', $budget_id)->get();
+        $currentAmount = $query->where('type', 'out')->where('user_id', Auth::user()->id)->where('budget_id', $budget_id)->get();
+        $amount = 0;
+        foreach ($currentAmount as $ca) {
+            $amount -= $ca->amount;
+        }
+
+        return $amount;
     }
 }
