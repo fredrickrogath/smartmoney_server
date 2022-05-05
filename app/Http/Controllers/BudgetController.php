@@ -204,6 +204,24 @@ class BudgetController extends Controller
         ]);
     }
 
+    public function getEntries()
+    {
+        $categores = Entry::getEntries(request()->budget_id);
+
+        if ($categores) {
+            $data = $categores;
+            $code = 200;
+        } else {
+            $message = $data;
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $categores,
+            'code' => $code,
+        ]);
+    }
+
     public function getBudgetCategorizedByDay()
     {
         $data = Budget::where('created_at', '>=', Carbon::now()->subMonth())
