@@ -174,7 +174,8 @@ class BudgetController extends Controller
 
         if ($type == 'in') {
 
-            if ($balance->count() <= 0) {
+            if ($balance == '0.0') {
+                $balance = $amount;
                 Balance::createNew($amount, $budgetId);
             } else {
                 $balance = Balance::updateCurrent($amount, $budgetId, $type);
@@ -202,7 +203,7 @@ class BudgetController extends Controller
         }
 
         return response()->json([
-            'message' => $created,
+            'message' => $message,
             'balance' => $balance,
             'code' => $code,
         ]);
@@ -231,6 +232,43 @@ class BudgetController extends Controller
         $categores = Entry::getEntries(request()->budget_id);
 
         $balance = Balance::getBalance(request()->budget_id);
+
+        if ($categores) {
+            $data = $categores;
+            $code = 200;
+        } else {
+            $message = $data;
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $categores,
+            'balance' => $balance,
+            'code' => $code,
+        ]);
+    }
+
+    public function totalIn()
+    {
+        $totalIn = Entry::totalIn(request()->budget_id);
+
+        if ($totalIn) {
+            $data = $totalIn;
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $data,
+            'code' => $code,
+        ]);
+    }
+
+    public function totalOut()
+    {
+        $categores = Entry::totalOut(request()->budget_id);
 
         if ($categores) {
             $data = $categores;

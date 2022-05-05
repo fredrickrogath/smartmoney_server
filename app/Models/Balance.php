@@ -28,8 +28,12 @@ class Balance extends Model
 
     public function scopegetBalance($query, $budgetId)
     {
-        $currentAmount = $query->where('budget_id', $budgetId)->where('user_id', Auth::user()->id)->get()[0];
-        return $currentAmount->amount;
+        $currentAmount = $query->where('budget_id', $budgetId)->where('user_id', Auth::user()->id)->get();
+        if($currentAmount->isNotEmpty()){
+            return $currentAmount[0]->amount;
+        }else{
+            return '0.0';
+        }
     }
 
     public function scopeupdateCurrent($query, $amount, $budgetId, $type)
