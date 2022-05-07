@@ -49,6 +49,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/totalOut', [\App\Http\Controllers\BudgetController::class, 'totalOut']);
 
+    Route::post('/createNewBudget', [\App\Http\Controllers\BudgetController::class, 'createNewBudget']);
+
+    Route::post('/budgetList', [\App\Http\Controllers\BudgetController::class, 'budgetList']);
+
     // API route for logout user
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });

@@ -67,6 +67,50 @@ class BudgetController extends Controller
         ]);
     }
 
+    public function createNewBudget()
+    {
+        $created = Budget::create([
+            'name' => request()->name,
+            'start_date' => request()->start_date,
+            'end_date' => request()->end_date,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        if ($created) {
+
+            $message = 'successfully created';
+            $budget_id = $created->id;
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 400;
+        }
+
+        return response()->json([
+            'message' => $message,
+            'budget_id' => $budget_id,
+            'code' => $code,
+        ]);
+    }
+
+    public function budgetList()
+    {
+        $expeses = budget::budgetDescending();
+
+        if ($expeses) {
+            $expeses = $expeses;
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $expeses,
+            'code' => $code,
+        ]);
+    }
+
     public function addCategory()
     {
         $created = Category::create([
