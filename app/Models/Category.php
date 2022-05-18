@@ -15,7 +15,8 @@ class Category extends Model
         'type',
         'amount',
         'user_id',
-        'in_use'
+        'in_use',
+        'estimated_amount',
     ];
 
     public function scopeincomeDescending($query)
@@ -35,11 +36,36 @@ class Category extends Model
 
     public function scopeselectCategory($query, $categoryId)
     {
-        return $query->where('id', '=', $categoryId)->where('user_id', Auth::user()->id)->update(['in_use' => '1']);
+        return $query->where('id', $categoryId)->where('user_id', Auth::user()->id)->update(['in_use' => '1']);
     }
 
-    public function scopegetCategories($query)
+    public function scopegetCashInCategoryLists($query)
     {
-        return $query->where('user_id', Auth::user()->id)->get();
+        return $query->where('user_id', Auth::user()->id)->where('type', 'income')->get();
+    }
+
+    public function scopegetCashOutCategoryLists($query)
+    {
+        return $query->where('user_id', Auth::user()->id)->where('type', 'expense')->get();
+    }
+
+    public function scopeupdateCategory($query, $id, $name, $amount)
+    {
+        return $query->where('id', $id)->where('user_id', Auth::user()->id)->update(['name' => $name, 'amount' => $amount]);
+    }
+
+    public function scopeupdateEstimatedAmount($query, $id, $amount)
+    {
+        $estimated_amount = $query->where('user_id', Auth::user()->id)->where('type', 'expense')->where('id', $id)->get();
+        $update = $estimated_amount[0]->estimated_amount += $amount;
+        // try {
+        //     $estimated_amount = $query->where('user_id', Auth::user()->id)->where('type', 'expense')->where('id', $id)->get()[0];
+        //     $estimated_amount->estimated_amount += $amount;
+        // } catch (\Exception $exception) {
+        //     return response()->json([
+        //         'error' => $exception->getMessage(),
+        //     ]);
+        // }
+        return $query->where('user_id', Auth::user()->id)->where('type', 'expense')->where('id', $id)->update(['estimated_amount' => $update]);
     }
 }

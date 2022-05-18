@@ -41,7 +41,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/addEntry', [\App\Http\Controllers\BudgetController::class, 'addEntry']);
 
-    Route::post('/getCategories', [\App\Http\Controllers\BudgetController::class, 'getCategories']);
+    Route::post('/getCashInCategoryLists', [\App\Http\Controllers\BudgetController::class, 'getCashInCategoryLists']);
+
+    Route::post('/getCashOutCategoryLists', [\App\Http\Controllers\BudgetController::class, 'getCashOutCategoryLists']);
 
     Route::post('/getEntries', [\App\Http\Controllers\BudgetController::class, 'getEntries']);
 
@@ -52,6 +54,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/createNewBudget', [\App\Http\Controllers\BudgetController::class, 'createNewBudget']);
 
     Route::post('/budgetList', [\App\Http\Controllers\BudgetController::class, 'budgetList']);
+
+    Route::post('/updateCategory', [\App\Http\Controllers\BudgetController::class, 'updateCategory']);
 
     // API route for logout user
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);

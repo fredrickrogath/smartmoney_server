@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     // return view('welcome');
 
-    $currentAmount = \App\Models\Entry::where('type', 'in')->where('budget_id', 2)->where('user_id', 2)->get();
-    // dd($currentAmount);
-    $amount = 0;
-    foreach ($currentAmount as $ca) {
-        $amount += $ca->amount;
-    }
+    // $currentAmount = \App\Models\Entry::where('type', 'in')->where('budget_id', 2)->where('user_id', 2)->get();
+    // // dd($currentAmount);
+    // $amount = 0;
+    // foreach ($currentAmount as $ca) {
+    //     $amount += $ca->amount;
+    // }
 
-    echo $amount;
-
+    // echo $amount;
+    $test = \App\Models\Category::where('user_id', 1)->where('type', 'expense')->where('id', 3)->get();
+    echo $test[0]->estimated_amount;
 });

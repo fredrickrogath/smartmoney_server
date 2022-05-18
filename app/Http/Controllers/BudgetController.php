@@ -152,6 +152,24 @@ class BudgetController extends Controller
         ]);
     }
 
+    public function updateCategory(Request $request)
+    {
+        $created = Category::updateCategory($request->id, $request->name, $request->amount);
+
+        if ($created) {
+            $message = 'successfully updated';
+            $code = 200;
+        } else {
+            $message = 'failed';
+            $code = 400;
+        }
+
+        return response()->json([
+            'message' => $message,
+            'code' => $code,
+        ]);
+    }
+
     public function getExpense()
     {
         $expeses = Category::expenseDescending();
@@ -214,6 +232,8 @@ class BudgetController extends Controller
 
         $budgetId = request()->budget_id;
 
+        $categoryId = request()->category_id;
+
         $balance = Balance::getBalance($budgetId);
 
         if ($type == 'in') {
@@ -225,7 +245,7 @@ class BudgetController extends Controller
                 $balance = Balance::updateCurrent($amount, $budgetId, $type);
             }
         } elseif ($type == 'out') {
-
+            Category::updateEstimatedAmount($categoryId, $amount);
         }
 
         $created = Entry::create([
@@ -253,9 +273,27 @@ class BudgetController extends Controller
         ]);
     }
 
-    public function getCategories()
+    public function getCashInCategoryLists()
     {
-        $categores = Category::getCategories();
+        $categores = Category::getCashInCategoryLists();
+
+        if ($categores) {
+            $data = $categores;
+            $code = 200;
+        } else {
+            $message = $data;
+            $code = 400;
+        }
+
+        return response()->json([
+            'data' => $categores,
+            'code' => $code,
+        ]);
+    }
+
+    public function getCashOutCategoryLists()
+    {
+        $categores = Category::getCashOutCategoryLists();
 
         if ($categores) {
             $data = $categores;
